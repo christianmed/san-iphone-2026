@@ -184,8 +184,11 @@ export default function ParticipantPortal({
                     e.target.style.display = 'none';
                   }}
                 />
-                <span className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity border border-white/10 shadow-sm">
-                  <ZoomIn className="w-3.5 h-3.5 text-emerald-400" /> Ampliar
+                <span 
+                  className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-md text-white/90 flex items-center justify-center border border-white/20 shadow-md transition-all duration-200 group-hover:scale-110 group-active:scale-95 group-hover:border-emerald-500/50"
+                  aria-label="Ampliar imagen"
+                >
+                  <ZoomIn className="w-4 h-4 group-hover:text-emerald-400 transition-colors" />
                 </span>
               </button>
             )}
