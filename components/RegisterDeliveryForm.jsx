@@ -132,10 +132,13 @@ export default function RegisterDeliveryForm({ participants = [], onSuccess }) {
             >
               <option value="">-- Seleccionar Participante --</option>
               {participants.map((p) => {
-                const isEntregada = p.estatusMoto?.toLowerCase().includes('entregada');
+                const modelShort = `Pro Max - ${p.color || 'Glaciar'}`;
+                const statusLabel = p.estatusMoto?.toLowerCase().includes('entregad')
+                  ? 'Entregado'
+                  : (p.estatusMoto || 'Pendiente');
                 return (
                   <option key={p.id} value={p.id}>
-                    {p.id} - {p.nombre} ({p.modeloMoto}) [{isEntregada ? 'Entregada' : 'Pendiente'}]
+                    {p.id} - {p.nombre} ({modelShort}) - {statusLabel}
                   </option>
                 );
               })}
@@ -162,7 +165,7 @@ export default function RegisterDeliveryForm({ participants = [], onSuccess }) {
                   <span className="font-bold text-[var(--text-main)] text-sm">{selectedParticipantObj.modeloMoto}</span>
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${
-                      selectedParticipantObj.estatusMoto?.toLowerCase().includes('entregada')
+                      selectedParticipantObj.estatusMoto?.toLowerCase().includes('entregad')
                         ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
                         : 'bg-amber-500/10 text-amber-500 border-amber-500/20'
                     }`}
@@ -317,7 +320,7 @@ export default function RegisterDeliveryForm({ participants = [], onSuccess }) {
                 </div>
               </div>
               <p className="text-[11px] text-[var(--text-muted)] font-medium text-center">
-                Esta fecha se guardará en la columna "Registro de Entrega" de Google Sheets y cambiará el estatus a "Entregada".
+                Esta fecha se guardará en la columna "Registro de Entrega" de Google Sheets y cambiará el estatus a "Entregado".
               </p>
             </div>
 

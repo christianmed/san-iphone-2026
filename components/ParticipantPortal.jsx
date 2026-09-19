@@ -73,7 +73,7 @@ export default function ParticipantPortal({
     );
   };
 
-  const isEntregada = participant.estatusMoto?.toLowerCase().includes('entregada');
+  const isEntregada = participant.estatusMoto?.toLowerCase().includes('entregad');
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] pb-16 flex flex-col antialiased theme-transition">
@@ -213,7 +213,7 @@ export default function ParticipantPortal({
                   <div className="flex items-center gap-1.5 font-bold text-sm">
                     {isEntregada ? (
                       <span className="text-emerald-500 flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Entregada ({participant.registroEntrega || 'Confirmada'})
+                        <CheckCircle2 className="w-4 h-4" /> Entregado ({participant.registroEntrega || 'Confirmada'})
                       </span>
                     ) : (
                       <span className="text-amber-500 flex items-center gap-1">

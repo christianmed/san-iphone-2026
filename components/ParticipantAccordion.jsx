@@ -265,7 +265,7 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                         </div>
                         {p.registroEntrega && (
                           <div className="text-emerald-500 font-bold text-[11px]">
-                            ✓ Entregada el: {p.registroEntrega}
+                            ✓ Entregado el: {p.registroEntrega}
                           </div>
                         )}
                       </div>
