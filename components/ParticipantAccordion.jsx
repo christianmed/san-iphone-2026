@@ -8,7 +8,7 @@ import {
   AlertTriangle, 
   CheckCircle2, 
   Clock, 
-  Bike, 
+  Smartphone, 
   Calendar 
 } from 'lucide-react';
 
@@ -155,7 +155,7 @@ export default function ParticipantAccordion({ participants = [] }) {
                           {p.nombre}
                         </h3>
                         <p className="text-xs text-[var(--text-muted)] flex items-center gap-1 mt-0.5 font-medium">
-                          <Bike className="w-3.5 h-3.5 text-emerald-500" /> {p.modeloMoto}
+                          <Smartphone className="w-3.5 h-3.5 text-emerald-500" /> {p.modeloMoto}
                         </p>
                       </div>
                     </div>

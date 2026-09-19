@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { 
-  Bike, 
+  Smartphone, 
   Sun, 
   Moon, 
   LogOut, 

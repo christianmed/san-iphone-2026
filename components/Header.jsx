@@ -4,7 +4,7 @@ import React from 'react';
 import { 
   ShieldCheck, 
   RefreshCw, 
-  Bike, 
+  Smartphone, 
   Sun, 
   Moon, 
   LayoutDashboard, 

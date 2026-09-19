@@ -92,7 +92,7 @@ export default function Page() {
   // Pantalla de carga mientras se lee localStorage
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-[var(--bg-main)] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-main)] flex items-center justify-center" suppressHydrationWarning>
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
         </div>

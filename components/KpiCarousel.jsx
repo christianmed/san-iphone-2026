@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Wallet, TrendingDown, Bike, UserCheck, ArrowUpRight } from 'lucide-react';
+import { Wallet, TrendingDown, Smartphone, UserCheck, ArrowUpRight } from 'lucide-react';
 
 export default function KpiCarousel({ kpis }) {
   if (!kpis) return null;

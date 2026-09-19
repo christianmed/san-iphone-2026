@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PackageCheck, Calendar, CheckCircle2, AlertCircle, RefreshCw, X, ShieldCheck, Bike, AlertTriangle } from 'lucide-react';
+import { PackageCheck, Calendar, CheckCircle2, AlertCircle, RefreshCw, X, ShieldCheck,  AlertTriangle } from 'lucide-react';
 
 export default function RegisterDeliveryForm({ participants = [], onSuccess }) {
   const [selectedUser, setSelectedUser] = useState('');
