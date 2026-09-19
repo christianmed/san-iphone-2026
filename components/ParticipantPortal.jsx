@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Smartphone, 
   Sun, 
@@ -13,7 +13,9 @@ import {
   ArrowDownLeft, 
   ShieldCheck,
   Wallet,
-  CreditCard
+  CreditCard,
+  X,
+  ZoomIn
 } from 'lucide-react';
 
 export default function ParticipantPortal({ 
@@ -23,6 +25,23 @@ export default function ParticipantPortal({
   toggleTheme, 
   onLogout 
 }) {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsImageModalOpen(false);
+      }
+    };
+    if (isImageModalOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isImageModalOpen]);
   if (!participant) return null;
 
   // Filtrar los pagos que corresponden exclusivamente a este participante
@@ -151,16 +170,24 @@ export default function ParticipantPortal({
 
           <div className="flex flex-col md:flex-row items-center gap-6">
             {participant.imagenMoto && (
-              <div className="w-48 sm:w-56 h-72 sm:h-80 rounded-2xl overflow-hidden border border-[var(--border-main)] bg-gradient-to-b from-[var(--bg-input)] to-[var(--bg-card)] p-3.5 flex items-center justify-center shrink-0 shadow-sm mx-auto md:mx-0">
+              <button
+                type="button"
+                onClick={() => setIsImageModalOpen(true)}
+                className="w-48 sm:w-56 h-72 sm:h-80 rounded-2xl overflow-hidden border border-[var(--border-main)] bg-gradient-to-b from-[var(--bg-input)] to-[var(--bg-card)] p-3.5 flex items-center justify-center shrink-0 shadow-sm mx-auto md:mx-0 cursor-zoom-in group relative hover:border-emerald-500/40 active:scale-95 transition-all duration-200"
+                title="Toca para ampliar imagen en pantalla completa"
+              >
                 <img
                   src={participant.imagenMoto}
                   alt={participant.modeloMoto}
-                  className="w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105"
+                  className="w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
                 />
-              </div>
+                <span className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity border border-white/10 shadow-sm">
+                  <ZoomIn className="w-3.5 h-3.5 text-emerald-400" /> Ampliar
+                </span>
+              </button>
             )}
 
             <div className="flex-1 w-full space-y-3 text-xs">
@@ -329,7 +356,53 @@ export default function ParticipantPortal({
         <div className="text-center py-3 text-xs text-[var(--text-muted)] font-medium">
           ¿Tienes dudas sobre tus abonos o fechas? Comunícate directamente con la administración de la tanda.
         </div>
-      </main>
+        </main>
+
+      {/* Modal de Imagen Ampliada (Mobile First & Desktop) */}
+      {isImageModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          {/* Botón de Cierre Táctil Amplio */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsImageModalOpen(false);
+            }}
+            className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/25 active:scale-90 text-white flex items-center justify-center transition-all border border-white/20 shadow-xl cursor-pointer"
+            aria-label="Cerrar imagen"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Tarjeta Modal Responsiva */}
+          <div 
+            className="relative flex flex-col items-center max-w-sm sm:max-w-md w-full max-h-[92vh] bg-[var(--bg-card)]/95 border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl backdrop-blur-xl animate-scaleUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Visualizador de Imagen Portrait (700x1300) */}
+            <div className="w-full max-h-[68vh] sm:max-h-[72vh] flex items-center justify-center overflow-hidden py-1">
+              <img
+                src={participant.imagenMoto}
+                alt={participant.modeloMoto}
+                className="max-h-[64vh] sm:max-h-[68vh] w-auto max-w-full object-contain filter drop-shadow-2xl transition-transform duration-300"
+              />
+            </div>
+
+            {/* Pill con Modelo y Color Asignado */}
+            <div className="mt-3 px-4 py-2 rounded-2xl bg-[var(--bg-input)] border border-[var(--border-main)] text-[var(--text-main)] text-xs sm:text-sm font-black flex items-center gap-2 shadow-sm text-center">
+              <Smartphone className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span>{participant.modeloCompleto || participant.modeloMoto}</span>
+            </div>
+            
+            <p className="text-[11px] text-[var(--text-muted)] mt-1.5 font-medium">
+              Toca la <span className="font-bold">X</span> o cualquier lugar fuera para cerrar
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

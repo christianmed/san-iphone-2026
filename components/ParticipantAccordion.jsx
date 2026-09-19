@@ -9,13 +9,16 @@ import {
   CheckCircle2, 
   Clock, 
   Smartphone, 
-  Calendar 
+  Calendar,
+  X,
+  ZoomIn 
 } from 'lucide-react';
 
 export default function ParticipantAccordion({ participants = [], columns = 1 }) {
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [expandedId, setExpandedId] = useState(null);
+  const [selectedModalImage, setSelectedModalImage] = useState(null);
 
   const isMora = (estado) => {
     const est = (estado || '').toLowerCase();
@@ -267,6 +270,48 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
           })
         )}
       </div>
+
+      {/* Modal de Imagen Ampliada */}
+      {selectedModalImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
+          onClick={() => setSelectedModalImage(null)}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedModalImage(null);
+            }}
+            className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/25 active:scale-90 text-white flex items-center justify-center transition-all border border-white/20 shadow-xl cursor-pointer"
+            aria-label="Cerrar imagen"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          <div 
+            className="relative flex flex-col items-center max-w-sm sm:max-w-md w-full max-h-[92vh] bg-[var(--bg-card)]/95 border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl backdrop-blur-xl animate-scaleUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full max-h-[68vh] sm:max-h-[72vh] flex items-center justify-center overflow-hidden py-1">
+              <img
+                src={selectedModalImage.src}
+                alt={selectedModalImage.title}
+                className="max-h-[64vh] sm:max-h-[68vh] w-auto max-w-full object-contain filter drop-shadow-2xl"
+              />
+            </div>
+
+            <div className="mt-3 px-4 py-2 rounded-2xl bg-[var(--bg-input)] border border-[var(--border-main)] text-[var(--text-main)] text-xs sm:text-sm font-black flex items-center gap-2 shadow-sm text-center">
+              <Smartphone className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span>{selectedModalImage.title}</span>
+            </div>
+            
+            <p className="text-[11px] text-[var(--text-muted)] mt-1.5 font-medium">
+              Toca la <span className="font-bold">X</span> o cualquier lugar fuera para cerrar
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
