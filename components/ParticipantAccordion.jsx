@@ -162,9 +162,10 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                   onClick={() => toggleExpand(p.id)}
                   className="w-full p-4 text-left flex flex-col gap-3 hover:bg-[var(--bg-card-hover)] transition-colors"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="w-8 h-8 rounded-xl bg-[var(--bg-input)] text-[var(--text-main)] text-xs font-black flex items-center justify-center border border-[var(--border-main)] shrink-0">
+                  <div className="flex items-center justify-between gap-3 w-full">
+                    {/* Izquierda: Número + Foto + (Nombre y Modelo) */}
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[var(--bg-input)] text-[var(--text-main)] text-xs font-black flex items-center justify-center border border-[var(--border-main)] shrink-0">
                         #{p.noAsignado || p.id}
                       </span>
                       {p.imagenMoto && (
@@ -175,42 +176,32 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                             e.stopPropagation();
                             setSelectedModalImage({ src: p.imagenMoto, title: p.modeloMoto, nombre: p.nombre });
                           }}
-                          className="w-9 h-14 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-0.5 flex items-center justify-center shrink-0 cursor-zoom-in group/img relative hover:border-emerald-500 active:scale-90 transition-all shadow-sm"
-                          title="Toca para ver foto ampliada del iPhone"
+                          className="w-8 h-12 sm:w-9 sm:h-14 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-0.5 flex items-center justify-center shrink-0 cursor-zoom-in group/img relative hover:border-emerald-500 active:scale-95 transition-all shadow-sm"
+                          title="Toca para ampliar foto"
                         >
                           <img
                             src={p.imagenMoto}
                             alt={p.modeloMoto}
                             className="w-full h-full object-contain"
                           />
-                          <span className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity rounded-md text-white">
-                            <ZoomIn className="w-3.5 h-3.5 text-emerald-400" />
-                          </span>
                         </div>
                       )}
                       <div>
-                        <h3 className="font-bold text-[var(--text-main)] text-base leading-tight">
+                        <h3 className="font-bold text-[var(--text-main)] text-sm sm:text-base leading-tight">
                           {p.nombre}
                         </h3>
-                        <p 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedModalImage({ src: p.imagenMoto, title: p.modeloMoto, nombre: p.nombre });
-                          }}
-                          className="text-xs text-[var(--text-muted)] flex items-center gap-1 mt-0.5 font-medium hover:text-emerald-500 cursor-pointer transition-colors group/text"
-                          title="Toca para ver foto del iPhone"
-                        >
-                          <Smartphone className="w-3.5 h-3.5 text-emerald-500" /> 
-                          <span className="group-hover/text:underline">{p.modeloMoto}</span>
-                          <ZoomIn className="w-3 h-3 text-emerald-500/70 ml-0.5" />
+                        <p className="text-[11px] sm:text-xs text-[var(--text-muted)] flex items-center gap-1 mt-0.5 font-medium">
+                          <Smartphone className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />
+                          <span>Pro Max - {p.color || 'Glaciar'}</span>
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    {/* Derecha: Badge de Estado + Chevron */}
+                    <div className="flex items-center gap-1.5 shrink-0">
                       {getStatusBadge(p.estado)}
-                      <div className="text-[var(--text-muted)] p-1">
-                        {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                      <div className="text-[var(--text-muted)] p-0.5">
+                        {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                       </div>
                     </div>
                   </div>
