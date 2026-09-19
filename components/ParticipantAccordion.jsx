@@ -82,7 +82,7 @@ export default function ParticipantAccordion({ participants = [] }) {
           <Search className="w-4 h-4 absolute left-3 top-3 text-[var(--text-muted)]" />
           <input
             type="text"
-            placeholder="Buscar participante o modelo de moto..."
+            placeholder="Buscar participante o modelo de iPhone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-[var(--bg-input)] text-sm text-[var(--text-main)] placeholder-[var(--text-muted)] rounded-xl pl-9 pr-4 py-2.5 border border-[var(--border-main)] focus:outline-none focus:border-emerald-500 transition-colors shadow-sm"
@@ -192,18 +192,20 @@ export default function ParticipantAccordion({ participants = [] }) {
                     {/* Imagen de la motocicleta y estado de entrega */}
                     <div className="flex items-center gap-4 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-main)]">
                       {p.imagenMoto && (
-                        <img
-                          src={p.imagenMoto}
-                          alt={p.modeloMoto}
-                          className="w-16 h-16 object-cover rounded-lg border border-[var(--border-main)] bg-[var(--bg-input)] shrink-0"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                          }}
-                        />
+                        <div className="w-16 h-24 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-1.5 flex items-center justify-center shrink-0">
+                          <img
+                            src={p.imagenMoto}
+                            alt={p.modeloMoto}
+                            className="w-full h-full object-contain"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+                        </div>
                       )}
                       <div className="space-y-1 text-xs">
                         <div className="text-[var(--text-muted)] font-medium">
-                          Estatus Moto: <span className="text-[var(--text-main)] font-bold">{p.estatusMoto}</span>
+                          Estatus Entrega: <span className="text-[var(--text-main)] font-bold">{p.estatusMoto}</span>
                         </div>
                         <div className="text-[var(--text-muted)] flex items-center gap-1 font-medium">
                           <Calendar className="w-3.5 h-3.5 text-emerald-500" /> Entrega calculada:{' '}

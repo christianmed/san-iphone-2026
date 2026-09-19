@@ -30,6 +30,39 @@ describe('Tanda iPhone 18 Pro Max - E2E & Integration Suite', () => {
       }
     });
 
+  describe('4. Verificación de Colores Asignados y Aspect Ratio Portrait de iPhone', () => {
+    it('todos los participantes deben tener su modelo enriquecido con el color asignado', async () => {
+      const { getTandaData } = await import('../lib/dataFetcher.js');
+      const data = await getTandaData();
+
+      const expectedColors = {
+        U001: 'Glaciar',
+        U002: 'Negro',
+        U003: 'Plata',
+        U004: 'Borgoña',
+        U005: 'Glaciar',
+        U006: 'Borgoña',
+        U007: 'Plata',
+        U008: 'Negro',
+        U009: 'Glaciar',
+        U010: 'Plata',
+      };
+
+      for (const p of data.participants) {
+        const expectedColor = expectedColors[p.id];
+        assert.strictEqual(p.color, expectedColor, `El participante ${p.nombre} (${p.id}) debe tener color ${expectedColor}`);
+        assert.strictEqual(p.modeloMoto, `iPhone 18 Pro Max - ${expectedColor}`);
+      }
+    });
+
+    it('ParticipantPortal debe usar contenedor vertical y object-contain para no recortar la imagen 700x1300', () => {
+      const portalFile = fs.readFileSync(path.join(rootDir, 'components', 'ParticipantPortal.jsx'), 'utf-8');
+      assert.ok(portalFile.includes('object-contain'), 'Debe usar object-contain para no recortar la imagen 700x1300');
+      assert.ok(portalFile.includes('h-72 sm:h-80'), 'Debe usar altura vertical proporcionada para la imagen de iPhone');
+      assert.ok(portalFile.includes('Modelo y Color Asignado'), 'Debe contener la sección de Modelo y Color Asignado');
+    });
+  });
+
     it('app/layout.jsx y app/page.jsx deben incluir suppressHydrationWarning para extensiones', () => {
       const layoutContent = fs.readFileSync(path.join(rootDir, 'app', 'layout.jsx'), 'utf-8');
       const pageContent = fs.readFileSync(path.join(rootDir, 'app', 'page.jsx'), 'utf-8');
@@ -58,7 +91,8 @@ describe('Tanda iPhone 18 Pro Max - E2E & Integration Suite', () => {
       const p1 = data.participants[0];
       assert.strictEqual(p1.id, 'U001');
       assert.strictEqual(p1.nombre, 'Angel');
-      assert.strictEqual(p1.modeloMoto, 'iPhone 18 Pro Max');
+      assert.strictEqual(p1.modeloMoto, 'iPhone 18 Pro Max - Glaciar');
+      assert.strictEqual(p1.color, 'Glaciar');
       assert.strictEqual(p1.cuotaSemanal, 75, 'La cuota semanal de Angel debe ser $75');
       assert.strictEqual(p1.pin, '18010001', 'El PIN de Angel debe ser 18010001');
       assert.strictEqual(p1.estatusMoto, 'Pendiente', 'El estatus inicial debe ser Pendiente');

@@ -146,14 +146,16 @@ export default function RegisterDeliveryForm({ participants = [], onSuccess }) {
           {selectedParticipantObj && (
             <div className="bg-[var(--bg-card-subtle)] border border-[var(--border-main)] rounded-xl p-3.5 flex items-center gap-3.5 animate-fadeIn">
               {selectedParticipantObj.imagenMoto && (
-                <img
-                  src={selectedParticipantObj.imagenMoto}
-                  alt={selectedParticipantObj.modeloMoto}
-                  className="w-16 h-16 object-cover rounded-lg border border-[var(--border-main)] bg-[var(--bg-input)] shrink-0"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
+                <div className="w-16 h-24 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-1.5 flex items-center justify-center shrink-0">
+                  <img
+                    src={selectedParticipantObj.imagenMoto}
+                    alt={selectedParticipantObj.modeloMoto}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
               )}
               <div className="space-y-1 text-xs flex-1">
                 <div className="flex items-center justify-between">

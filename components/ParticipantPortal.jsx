@@ -151,11 +151,11 @@ export default function ParticipantPortal({
 
           <div className="flex flex-col md:flex-row items-center gap-6">
             {participant.imagenMoto && (
-              <div className="w-full md:w-56 h-44 rounded-2xl overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] shrink-0 shadow-sm">
+              <div className="w-48 sm:w-56 h-72 sm:h-80 rounded-2xl overflow-hidden border border-[var(--border-main)] bg-gradient-to-b from-[var(--bg-input)] to-[var(--bg-card)] p-3.5 flex items-center justify-center shrink-0 shadow-sm mx-auto md:mx-0">
                 <img
                   src={participant.imagenMoto}
                   alt={participant.modeloMoto}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
@@ -166,7 +166,7 @@ export default function ParticipantPortal({
             <div className="flex-1 w-full space-y-3 text-xs">
               <div>
                 <span className="text-[11px] text-[var(--text-muted)] uppercase tracking-wider font-bold">Modelo y Color Asignado</span>
-                <div className="text-lg font-black text-[var(--text-main)]">{participant.modeloMoto}</div>
+                <div className="text-lg sm:text-xl font-black text-[var(--text-main)] mt-0.5">{participant.modeloCompleto || participant.modeloMoto}</div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
