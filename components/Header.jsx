@@ -51,7 +51,8 @@ export default function Header({
             <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
               <span className="inline-flex items-center gap-1.5 font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Semana <span className="text-emerald-500 font-bold">{semanaActual}</span>/{totalSemanas}
+                Semana <span className="text-emerald-500 font-bold">{semanaActual}</span>/
+                <span className="text-emerald-500 font-bold">{totalSemanas}</span>
               </span>
             </div>
           </div>
