@@ -85,52 +85,49 @@ export default function DashboardContainer({ initialData, onLogout }) {
             {/* Carrusel / Grilla de Métricas Globales */}
             <KpiCarousel kpis={kpis} />
 
-            {/* Layout de Escritorio: 2 Columnas (Izquierda: Participantes | Derecha: Registro de Pagos e Historial de 10) */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            {/* Layout de Escritorio Reorganizado: Fila Operativa (Abono + Últimos 5 Pagos) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
-              {/* Columna Principal: Participantes */}
-              <div className="md:col-span-7 lg:col-span-7 space-y-4">
-                <div className="flex items-center justify-between px-1">
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                    Participantes de la Tanda ({participants?.length || 0})
-                  </h2>
-                  <button
-                    onClick={() => setActiveTab('participants')}
-                    className="text-xs text-emerald-500 hover:underline font-bold"
-                  >
-                    Ver lista completa →
-                  </button>
-                </div>
-                <ParticipantAccordion participants={participants} />
-              </div>
-
-              {/* Columna Secundaria: Formulario de Abono Rápido + Historial de 10 Pagos */}
-              <div className="md:col-span-5 lg:col-span-5 space-y-8">
-                
-                {/* Módulo para Registrar Abono */}
+              {/* Módulo para Registrar Abono */}
+              <div className="lg:col-span-6 space-y-4">
                 <RegisterPaymentForm
                   participants={participants}
                   onSuccess={handleRefresh}
                 />
-
-                {/* Panel de Pagos Recientes (Ampliado a 10 Pagos) */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between px-1">
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                      Últimos 10 Pagos Abonados
-                    </h2>
-                    <button
-                      onClick={() => setActiveTab('payments')}
-                      className="text-xs text-emerald-500 hover:underline font-bold"
-                    >
-                      Ver historial →
-                    </button>
-                  </div>
-                  <PaymentHistory payments={payments?.slice(0, 10) || []} />
-                </div>
-
               </div>
 
+              {/* Panel de Pagos Recientes (Compacto a 5 Pagos) */}
+              <div className="lg:col-span-6 space-y-3">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                    Últimos 5 Pagos Abonados
+                  </h2>
+                  <button
+                    onClick={() => setActiveTab('payments')}
+                    className="text-xs text-emerald-500 hover:underline font-bold"
+                  >
+                    Ver historial completo  
+                  </button>
+                </div>
+                <PaymentHistory payments={payments?.slice(0, 5) || []} />
+              </div>
+
+            </div>
+
+            {/* Sección Inferior a Ancho Completo: Participantes de la Tanda (10) en 2 Columnas */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                  Participantes de la Tanda ({participants?.length || 0})
+                </h2>
+                <button
+                  onClick={() => setActiveTab('participants')}
+                  className="text-xs text-emerald-500 hover:underline font-bold"
+                >
+                  Ver lista completa  
+                </button>
+              </div>
+              <ParticipantAccordion participants={participants} columns={2} />
             </div>
           </div>
         )}

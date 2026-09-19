@@ -12,7 +12,7 @@ import {
   Calendar 
 } from 'lucide-react';
 
-export default function ParticipantAccordion({ participants = [] }) {
+export default function ParticipantAccordion({ participants = [], columns = 1 }) {
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [expandedId, setExpandedId] = useState(null);
@@ -125,7 +125,7 @@ export default function ParticipantAccordion({ participants = [] }) {
       </div>
 
       {/* Lista Acordeón de Participantes */}
-      <div className="space-y-3">
+      <div className={columns === 2 ? "grid grid-cols-1 md:grid-cols-2 gap-4 items-start" : "space-y-3"}>
         {filteredParticipants.length === 0 ? (
           <div className="text-center py-8 text-[var(--text-muted)] text-sm bg-[var(--bg-card)] rounded-2xl border border-[var(--border-main)]">
             No se encontraron participantes que coincidan con los filtros.
