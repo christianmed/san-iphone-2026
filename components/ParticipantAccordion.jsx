@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -19,6 +19,20 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [expandedId, setExpandedId] = useState(null);
   const [selectedModalImage, setSelectedModalImage] = useState(null);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSelectedModalImage(null);
+    };
+    if (selectedModalImage) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedModalImage]);
+
 
   const isMora = (estado) => {
     const est = (estado || '').toLowerCase();
@@ -153,12 +167,42 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                       <span className="w-8 h-8 rounded-xl bg-[var(--bg-input)] text-[var(--text-main)] text-xs font-black flex items-center justify-center border border-[var(--border-main)] shrink-0">
                         #{p.noAsignado || p.id}
                       </span>
+                      {p.imagenMoto && (
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedModalImage({ src: p.imagenMoto, title: p.modeloMoto, nombre: p.nombre });
+                          }}
+                          className="w-9 h-14 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-0.5 flex items-center justify-center shrink-0 cursor-zoom-in group/img relative hover:border-emerald-500 active:scale-90 transition-all shadow-sm"
+                          title="Toca para ver foto ampliada del iPhone"
+                        >
+                          <img
+                            src={p.imagenMoto}
+                            alt={p.modeloMoto}
+                            className="w-full h-full object-contain"
+                          />
+                          <span className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity rounded-md text-white">
+                            <ZoomIn className="w-3.5 h-3.5 text-emerald-400" />
+                          </span>
+                        </div>
+                      )}
                       <div>
                         <h3 className="font-bold text-[var(--text-main)] text-base leading-tight">
                           {p.nombre}
                         </h3>
-                        <p className="text-xs text-[var(--text-muted)] flex items-center gap-1 mt-0.5 font-medium">
-                          <Smartphone className="w-3.5 h-3.5 text-emerald-500" /> {p.modeloMoto}
+                        <p 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedModalImage({ src: p.imagenMoto, title: p.modeloMoto, nombre: p.nombre });
+                          }}
+                          className="text-xs text-[var(--text-muted)] flex items-center gap-1 mt-0.5 font-medium hover:text-emerald-500 cursor-pointer transition-colors group/text"
+                          title="Toca para ver foto del iPhone"
+                        >
+                          <Smartphone className="w-3.5 h-3.5 text-emerald-500" /> 
+                          <span className="group-hover/text:underline">{p.modeloMoto}</span>
+                          <ZoomIn className="w-3 h-3 text-emerald-500/70 ml-0.5" />
                         </p>
                       </div>
                     </div>
@@ -195,7 +239,16 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                     {/* Imagen de la motocicleta y estado de entrega */}
                     <div className="flex items-center gap-4 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-main)]">
                       {p.imagenMoto && (
-                        <div className="w-16 h-24 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-1.5 flex items-center justify-center shrink-0">
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedModalImage({ src: p.imagenMoto, title: p.modeloMoto, nombre: p.nombre });
+                          }}
+                          className="w-16 h-24 rounded-lg overflow-hidden border border-[var(--border-main)] bg-[var(--bg-input)] p-1.5 flex items-center justify-center shrink-0 cursor-zoom-in group/detail relative hover:border-emerald-500 active:scale-95 transition-all shadow-sm"
+                          title="Toca para ver foto en pantalla completa"
+                        >
                           <img
                             src={p.imagenMoto}
                             alt={p.modeloMoto}
@@ -204,6 +257,9 @@ export default function ParticipantAccordion({ participants = [], columns = 1 })
                               e.target.style.display = 'none';
                             }}
                           />
+                          <span className="absolute inset-0 bg-black/45 opacity-0 group-hover/detail:opacity-100 flex items-center justify-center transition-opacity rounded-md text-white text-[10px] font-bold gap-1">
+                            <ZoomIn className="w-4 h-4 text-emerald-400" /> Ver
+                          </span>
                         </div>
                       )}
                       <div className="space-y-1 text-xs">
