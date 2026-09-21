@@ -125,9 +125,14 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
             <h1 className="text-xl font-black tracking-tight text-[var(--text-main)]">
               Dashboard
             </h1>
-            <p className="text-xs text-[var(--text-muted)] font-medium">
-              Control Administrativo y Participantes • iPhone 18 Pro Max
-            </p>
+            <div className="text-center text-xs font-semibold leading-relaxed">
+              <p className="text-emerald-500 tracking-wider font-bold">
+                • Gestión y Consulta •
+              </p>
+              <p className="text-[var(--text-muted)] font-medium">
+                San de iPhone 18 Pro Max
+              </p>
+            </div>
           </div>
 
           {/* Indicadores Circulares de los 8 Dígitos */}
@@ -175,7 +180,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
                 type="button"
                 onClick={() => handleAddDigit(String(num))}
                 disabled={isLoading}
-                className="h-14 sm:h-16 rounded-2xl bg-[var(--bg-card-subtle)] hover:bg-[var(--bg-card-hover)] hover:border-emerald-500/40 active:bg-emerald-500/10 border border-[var(--border-main)] text-[var(--text-main)] font-bold text-xl sm:text-2xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-50 flex items-center justify-center"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-dial)] text-[var(--text-dial)] font-normal text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
               >
                 {num}
               </button>
@@ -186,7 +191,8 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={handleClearPin}
               disabled={isLoading || pin.length === 0}
-              className="h-14 sm:h-16 rounded-2xl bg-[var(--bg-card-subtle)] hover:bg-[var(--bg-card-hover)] hover:border-rose-500/40 active:bg-rose-500/10 border border-[var(--border-main)] text-[var(--text-muted)] hover:text-rose-500 font-bold text-sm shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-rose-500 active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-dial)] text-[var(--text-muted)] font-semibold text-lg sm:text-xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
+              title="Limpiar PIN"
             >
               C
             </button>
@@ -196,7 +202,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={() => handleAddDigit('0')}
               disabled={isLoading}
-              className="h-14 sm:h-16 rounded-2xl bg-[var(--bg-card-subtle)] hover:bg-[var(--bg-card-hover)] hover:border-emerald-500/40 active:bg-emerald-500/10 border border-[var(--border-main)] text-[var(--text-main)] font-bold text-xl sm:text-2xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-50 flex items-center justify-center"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-dial)] text-[var(--text-dial)] font-normal text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
             >
               0
             </button>
@@ -206,10 +212,10 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={handleDeleteDigit}
               disabled={isLoading || pin.length === 0}
-              className="h-14 sm:h-16 rounded-2xl bg-[var(--bg-card-subtle)] hover:bg-[var(--bg-card-hover)] hover:border-emerald-500/40 active:bg-emerald-500/10 border border-[var(--border-main)] text-[var(--text-muted)] hover:text-[var(--text-main)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-[var(--text-main)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-dial)] text-[var(--text-muted)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
               title="Borrar último"
             >
-              <Delete className="w-5 h-5" />
+              <Delete className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
