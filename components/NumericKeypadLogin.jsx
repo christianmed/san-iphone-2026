@@ -173,7 +173,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
           </div>
 
           {/* Teclado Numérico (Grid 3x4) */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 max-w-[260px] sm:max-w-[280px] mx-auto">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 max-w-[210px] sm:max-w-[230px] mx-auto">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
               <button
                 key={num}
