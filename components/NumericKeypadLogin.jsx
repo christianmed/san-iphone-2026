@@ -173,14 +173,14 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
           </div>
 
           {/* Teclado Numérico (Grid 3x4) */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 max-w-[210px] sm:max-w-[230px] mx-auto">
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-[250px] sm:max-w-[270px] mx-auto">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
               <button
                 key={num}
                 type="button"
                 onClick={() => handleAddDigit(String(num))}
                 disabled={isLoading}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-xl sm:text-2xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
+                className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
               >
                 {num}
               </button>
@@ -191,7 +191,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={handleClearPin}
               disabled={isLoading || pin.length === 0}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-rose-500 hover:border-rose-500/40 active:bg-rose-500/10 border border-[var(--border-main)] text-[var(--text-muted)] font-bold text-base sm:text-lg shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-rose-500 hover:border-rose-500/40 active:bg-rose-500/10 border border-[var(--border-main)] text-[var(--text-muted)] font-bold text-lg sm:text-xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
               title="Limpiar PIN"
             >
               C
@@ -202,7 +202,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={() => handleAddDigit('0')}
               disabled={isLoading}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-xl sm:text-2xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
             >
               0
             </button>
@@ -212,10 +212,10 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={handleDeleteDigit}
               disabled={isLoading || pin.length === 0}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-[var(--text-main)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-muted)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-[var(--text-main)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-muted)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
               title="Borrar último"
             >
-              <Delete className="w-5 h-5" />
+              <Delete className="w-6 h-6" />
             </button>
           </div>
         </div>
