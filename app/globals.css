@@ -12,11 +12,11 @@
     --text-muted: #64748b;
     --border-main: #e2e8f0;
     --shadow-main: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-    --bg-dial-btn: rgba(0, 0, 0, 0.05);
-    --bg-dial-btn-hover: rgba(0, 0, 0, 0.09);
-    --bg-dial-btn-active: rgba(0, 0, 0, 0.16);
-    --text-dial: #0f172a;
-    --border-dial: rgba(0, 0, 0, 0.04);
+    --bg-dial-btn: rgba(0, 0, 0, 0.04);
+    --bg-dial-btn-hover: rgba(0, 0, 0, 0.08);
+    --bg-dial-btn-active: rgba(0, 0, 0, 0.14);
+    --text-dial: var(--text-main);
+    --border-dial: var(--border-main);
   }
 
   .dark {
@@ -30,11 +30,11 @@
     --text-muted: #9ca3af;
     --border-main: #1f293d;
     --shadow-main: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
-    --bg-dial-btn: rgba(255, 255, 255, 0.12);
-    --bg-dial-btn-hover: rgba(255, 255, 255, 0.18);
-    --bg-dial-btn-active: rgba(255, 255, 255, 0.26);
-    --text-dial: #ffffff;
-    --border-dial: rgba(255, 255, 255, 0.05);
+    --bg-dial-btn: var(--bg-card-subtle);
+    --bg-dial-btn-hover: var(--bg-card-hover);
+    --bg-dial-btn-active: rgba(255, 255, 255, 0.08);
+    --text-dial: var(--text-main);
+    --border-dial: var(--border-main);
   }
 
   body {
