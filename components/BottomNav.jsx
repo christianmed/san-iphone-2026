@@ -13,8 +13,8 @@ export default function BottomNav({ activeTab, setActiveTab }) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-header)] backdrop-blur-lg border-t border-[var(--border-main)] px-2 py-2 pb-safe md:hidden theme-transition shadow-lg">
-      <div className="max-w-md mx-auto grid grid-cols-5 gap-1">
+    <nav className="fixed bottom-3.5 left-3 right-3 sm:left-6 sm:right-6 z-50 max-w-md mx-auto bg-[var(--bg-header)]/90 backdrop-blur-xl border border-[var(--border-main)] shadow-2xl shadow-black/20 rounded-full p-1.5 md:hidden theme-transition">
+      <div className="grid grid-cols-5 gap-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -23,19 +23,14 @@ export default function BottomNav({ activeTab, setActiveTab }) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-xl transition-all ${
+              className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-full transition-all duration-200 active:scale-95 ${
                 isActive
-                  ? 'text-emerald-500 bg-emerald-500/10 font-bold'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-card-hover)] font-semibold'
+                  ? 'bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 font-bold shadow-sm'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-card-hover)]/70 font-medium'
               }`}
             >
-              <div className="relative">
-                <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110' : ''}`} />
-              </div>
-              <span className="text-[10px] mt-1 tracking-tight">{tab.label}</span>
-              {isActive && (
-                <span className="absolute bottom-0 w-8 h-0.5 bg-emerald-500 rounded-full"></span>
-              )}
+              <Icon className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'scale-110 stroke-[2.2]' : 'stroke-[1.8]'}`} />
+              <span className="text-[10px] mt-0.5 tracking-tight">{tab.label}</span>
             </button>
           );
         })}
