@@ -118,7 +118,7 @@ export default function Page() {
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin shadow-sm" />
           <p className="text-sm font-semibold text-[var(--text-muted)]">
-            {session.role === 'ADMIN' ? 'Cargando Dashboard de Carla...' : `Cargando Portal de ${session.user?.nombre || 'Participante'}...`}
+            {session.role === 'ADMIN' ? 'Cargando Dashboard del Administrador...' : `Cargando Portal de ${session.user?.nombre || 'Participante'}...`}
           </p>
         </div>
       </div>
