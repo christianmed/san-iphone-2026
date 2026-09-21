@@ -90,9 +90,9 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col justify-between items-center p-4 relative theme-transition select-none">
+    <div className="h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col justify-between items-center px-4 py-2 sm:p-4 relative theme-transition select-none">
       {/* Botón Flotante Superior de Tema (Claro / Oscuro) */}
-      <header className="w-full max-w-md flex justify-end pt-2">
+      <header className="w-full max-w-md flex justify-end pt-1 sm:pt-2">
         <button
           onClick={toggleTheme}
           className="p-2.5 rounded-2xl bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-main)] text-[var(--text-main)] active:scale-95 transition-all shadow-sm"
@@ -109,7 +109,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
       {/* Tarjeta Central del Teclado Numérico */}
       <main className="my-auto w-full max-w-sm">
         <div
-          className={`bg-[var(--bg-card)] border border-[var(--border-main)] rounded-3xl p-6 sm:p-8 shadow-2xl theme-transition transition-transform ${
+          className={`bg-[var(--bg-card)] border border-[var(--border-main)] rounded-3xl py-3 px-5 sm:p-8 shadow-2xl theme-transition transition-transform ${
             isShaking ? 'animate-shake border-rose-500/50' : ''
           }`}
         >
@@ -122,10 +122,10 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
 
           {/* Título y Subtítulo */}
           <div className="text-center space-y-1">
-            <h1 className="text-xl font-black tracking-tight text-[var(--text-main)]">
+            <h1 className="text-lg sm:text-xl font-black tracking-tight text-[var(--text-main)]">
               Dashboard
             </h1>
-            <div className="text-center text-xs font-semibold leading-relaxed">
+            <div className="text-center text-[11px] sm:text-xs font-semibold leading-tight sm:leading-relaxed">
               <p className="text-emerald-500 tracking-wider font-bold">
                 • Gestión y Consulta •
               </p>
@@ -136,7 +136,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
           </div>
 
           {/* Indicadores Circulares de los 8 Dígitos */}
-          <div className="flex items-center justify-center gap-2.5 my-6 py-1">
+          <div className="flex items-center justify-center gap-2 sm:gap-2.5 my-2 sm:my-6 py-0.5">
             {Array.from({ length: 8 }).map((_, index) => {
               const isFilled = index < pin.length;
               return (
@@ -153,7 +153,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
           </div>
 
           {/* Mensaje de Instrucción o Error */}
-          <div className="text-center min-h-[24px] mb-5">
+          <div className="text-center min-h-[20px] sm:min-h-[24px] mb-2 sm:mb-5">
             {isLoading ? (
               <div className="flex items-center justify-center gap-2 text-xs text-emerald-500 font-semibold animate-pulse">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -222,7 +222,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
       </main>
 
       {/* Pie de Página Sutil */}
-      <footer className="w-full text-center pb-2 text-[11px] text-[var(--text-muted)]">
+      <footer className="w-full text-center py-1 sm:pb-2 text-[11px] text-[var(--text-muted)]">
         <span>Sistema de Gestión de Tandas • Acceso Seguro</span>
       </footer>
     </div>
