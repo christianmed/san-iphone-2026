@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Smartphone, Sun, Moon, Delete, Lock, RefreshCw, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Smartphone, Delete, Moon, Sun, Lock, AlertCircle, RefreshCw } from 'lucide-react';
+import { isValidPinFormat, authenticatePin } from '../lib/authHelper';
 
 export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme }) {
   const [pin, setPin] = useState('');
@@ -9,65 +10,56 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
 
-  // Escuchar teclas del teclado físico (0-9, Backspace, Escape)
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (isLoading) return;
-
-      if (e.key >= '0' && e.key <= '9') {
-        handleAddDigit(e.key);
-      } else if (e.key === 'Backspace') {
-        handleDeleteDigit();
-      } else if (e.key === 'Escape') {
-        handleClearPin();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [pin, isLoading]);
-
   const handleAddDigit = (digit) => {
-    if (pin.length >= 8) return;
-    setErrorMessage('');
-    const newPin = pin + digit;
-    setPin(newPin);
+    if (pin.length < 8 && !isLoading) {
+      const nextPin = pin + digit;
+      setPin(nextPin);
+      setErrorMessage('');
 
-    // Auto-envío al completar los 8 dígitos
-    if (newPin.length === 8) {
-      submitPin(newPin);
+      if (nextPin.length === 8) {
+        verifyPin(nextPin);
+      }
     }
   };
 
   const handleDeleteDigit = () => {
-    if (pin.length === 0) return;
-    setErrorMessage('');
-    setPin((prev) => prev.slice(0, -1));
+    if (pin.length > 0 && !isLoading) {
+      setPin(pin.slice(0, -1));
+      setErrorMessage('');
+    }
   };
 
   const handleClearPin = () => {
-    setPin('');
-    setErrorMessage('');
+    if (!isLoading) {
+      setPin('');
+      setErrorMessage('');
+    }
   };
 
-  const submitPin = async (pinToSubmit) => {
+  const verifyPin = async (completedPin) => {
+    if (!isValidPinFormat(completedPin)) {
+      triggerShakeError('El PIN debe tener exactamente 8 dígitos.');
+      return;
+    }
+
     setIsLoading(true);
     setErrorMessage('');
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin: pinToSubmit }),
+        body: JSON.stringify({ pin: completedPin })
       });
 
       const data = await res.json();
 
-      if (data.success) {
+      if (res.ok && data.success) {
         if (onLoginSuccess) {
           onLoginSuccess({
             role: data.role,
-            user: data.user,
+            participant: data.participant || null,
+            pin: completedPin
           });
         }
       } else {
@@ -90,12 +82,12 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
   };
 
   return (
-    <div className="h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col justify-between items-center px-4 py-2 sm:p-4 relative theme-transition select-none">
-      {/* Botón Flotante Superior de Tema (Claro / Oscuro) */}
-      <header className="w-full max-w-md flex justify-end pt-1 sm:pt-2">
+    <div className="h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col justify-between items-center px-4 py-3 sm:py-6 relative theme-transition select-none">
+      {/* Botón Flotante Superior de Tema (Claro / Oscuro) - Alineado a la tarjeta */}
+      <header className="w-full max-w-sm flex justify-end">
         <button
           onClick={toggleTheme}
-          className="p-2.5 rounded-2xl bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-main)] text-[var(--text-main)] active:scale-95 transition-all shadow-sm"
+          className="p-2.5 rounded-2xl bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-main)] text-[var(--text-main)] active:scale-95 transition-all shadow-sm cursor-pointer"
           title={theme === 'dark' ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
         >
           {theme === 'dark' ? (
@@ -109,23 +101,23 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
       {/* Tarjeta Central del Teclado Numérico */}
       <main className="my-auto w-full max-w-sm">
         <div
-          className={`bg-[var(--bg-card)] border border-[var(--border-main)] rounded-3xl py-3 px-5 sm:p-8 shadow-2xl theme-transition transition-transform ${
+          className={`bg-[var(--bg-card)] border border-[var(--border-main)] rounded-3xl p-5 sm:p-7 shadow-2xl theme-transition transition-transform ${
             isShaking ? 'animate-shake border-rose-500/50' : ''
           }`}
         >
           {/* Ícono de Cabecera */}
-          <div className="flex justify-center mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center shadow-sm">
-              <Smartphone className="w-7 h-7" />
+          <div className="flex justify-center mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center shadow-sm">
+              <Smartphone className="w-6 h-6" />
             </div>
           </div>
 
           {/* Título y Subtítulo */}
           <div className="text-center space-y-1">
-            <h1 className="text-lg sm:text-xl font-black tracking-tight text-[var(--text-main)]">
+            <h1 className="text-xl font-black tracking-tight text-[var(--text-main)]">
               Dashboard
             </h1>
-            <div className="text-center text-[11px] sm:text-xs font-semibold leading-tight sm:leading-relaxed">
+            <div className="text-center text-xs font-semibold leading-normal">
               <p className="text-emerald-500 tracking-wider font-bold">
                 • Gestión y Consulta •
               </p>
@@ -135,8 +127,8 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
             </div>
           </div>
 
-          {/* Indicadores Circulares de los 8 Dígitos */}
-          <div className="flex items-center justify-center gap-2 sm:gap-2.5 my-2 sm:my-6 py-0.5">
+          {/* Indicadores Circulares de los 8 Dígitos con Contraste Mejorado */}
+          <div className="flex items-center justify-center gap-2 sm:gap-2.5 my-3.5 sm:my-4 py-0.5">
             {Array.from({ length: 8 }).map((_, index) => {
               const isFilled = index < pin.length;
               return (
@@ -145,7 +137,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
                   className={`w-3.5 h-3.5 rounded-full border transition-all duration-200 ${
                     isFilled
                       ? 'bg-emerald-500 border-emerald-500 scale-110 shadow-sm shadow-emerald-500/50'
-                      : 'bg-[var(--bg-input)] border-[var(--border-main)]'
+                      : 'bg-slate-200/90 dark:bg-slate-800 border-slate-300 dark:border-slate-700'
                   }`}
                 />
               );
@@ -153,7 +145,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
           </div>
 
           {/* Mensaje de Instrucción o Error */}
-          <div className="text-center min-h-[20px] sm:min-h-[24px] mb-2 sm:mb-5">
+          <div className="text-center min-h-[22px] mb-3.5 sm:mb-4">
             {isLoading ? (
               <div className="flex items-center justify-center gap-2 text-xs text-emerald-500 font-semibold animate-pulse">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -172,26 +164,26 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
             )}
           </div>
 
-          {/* Teclado Numérico (Grid 3x4) */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-[250px] sm:max-w-[270px] mx-auto">
+          {/* Teclado Numérico (Grid 3x4 Armonizado) */}
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 max-w-[240px] sm:max-w-[260px] mx-auto">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
               <button
                 key={num}
                 type="button"
                 onClick={() => handleAddDigit(String(num))}
                 disabled={isLoading}
-                className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
+                className="w-[4.15rem] h-[4.15rem] sm:w-[4.5rem] sm:h-[4.5rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
               >
                 {num}
               </button>
             ))}
 
-            {/* Tecla C: Limpiar Todo */}
+            {/* Tecla C: Limpiar Todo con Contraste Nítido */}
             <button
               type="button"
               onClick={handleClearPin}
               disabled={isLoading || pin.length === 0}
-              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-rose-500 hover:border-rose-500/40 active:bg-rose-500/10 border border-[var(--border-main)] text-[var(--text-muted)] font-bold text-lg sm:text-xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.15rem] h-[4.15rem] sm:w-[4.5rem] sm:h-[4.5rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-rose-500 hover:border-rose-500/40 active:bg-rose-500/10 border border-[var(--border-main)] text-[var(--text-main)] font-semibold text-lg sm:text-xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
               title="Limpiar PIN"
             >
               C
@@ -202,27 +194,27 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
               type="button"
               onClick={() => handleAddDigit('0')}
               disabled={isLoading}
-              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.15rem] h-[4.15rem] sm:w-[4.5rem] sm:h-[4.5rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] font-bold text-2xl sm:text-3xl shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-40 flex items-center justify-center cursor-pointer select-none"
             >
               0
             </button>
 
-            {/* Tecla ⌫: Borrar un Dígito */}
+            {/* Tecla ⌫: Borrar un Dígito con Contraste Nítido */}
             <button
               type="button"
               onClick={handleDeleteDigit}
               disabled={isLoading || pin.length === 0}
-              className="w-[4.25rem] h-[4.25rem] sm:w-[4.6rem] sm:h-[4.6rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-[var(--text-main)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-muted)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
+              className="w-[4.15rem] h-[4.15rem] sm:w-[4.5rem] sm:h-[4.5rem] rounded-full mx-auto bg-[var(--bg-dial-btn)] hover:bg-[var(--bg-dial-btn-hover)] hover:text-[var(--text-main)] active:bg-[var(--bg-dial-btn-active)] border border-[var(--border-main)] text-[var(--text-main)] shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center cursor-pointer select-none"
               title="Borrar último"
             >
-              <Delete className="w-6 h-6" />
+              <Delete className="w-5 h-5 sm:w-6 sm:h-6 opacity-80" />
             </button>
           </div>
         </div>
       </main>
 
-      {/* Pie de Página Sutil */}
-      <footer className="w-full text-center py-1 sm:pb-2 text-[11px] text-[var(--text-muted)]">
+      {/* Pie de Página Nítido y Proporcional */}
+      <footer className="w-full text-center py-2 text-xs text-[var(--text-muted)] font-medium">
         <span>Sistema de Gestión de Tandas • Acceso Seguro</span>
       </footer>
     </div>
