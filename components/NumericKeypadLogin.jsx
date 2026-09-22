@@ -137,7 +137,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
                   className={`w-3.5 h-3.5 rounded-full border transition-all duration-200 ${
                     isFilled
                       ? 'bg-emerald-500 border-emerald-500 scale-110 shadow-sm shadow-emerald-500/50'
-                      : 'bg-slate-200/90 dark:bg-slate-800 border-slate-300 dark:border-slate-700'
+                      : theme === 'dark' ? 'bg-white/[0.07] border-white/20' : 'bg-slate-100 border-slate-300'
                   }`}
                 />
               );
