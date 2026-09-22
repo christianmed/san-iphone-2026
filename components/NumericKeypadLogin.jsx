@@ -46,7 +46,7 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
     setErrorMessage('');
 
     try {
-      const res = await fetch('/api/auth', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: completedPin })
@@ -58,7 +58,8 @@ export default function NumericKeypadLogin({ onLoginSuccess, theme, toggleTheme 
         if (onLoginSuccess) {
           onLoginSuccess({
             role: data.role,
-            participant: data.participant || null,
+            user: data.user || null,
+            participant: data.user || null,
             pin: completedPin
           });
         }

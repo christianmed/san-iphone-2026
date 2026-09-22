@@ -138,7 +138,7 @@ export default function Page() {
   // 8. Si es Participante, mostrar su Portal Personalizado
   if (session.role === 'PARTICIPANT') {
     const participant = data.participants?.find(
-      (p) => String(p.id || '').trim().toUpperCase() === String(session.user?.id || '').trim().toUpperCase()
+      (p) => (session.user?.id && String(p.id || '').trim().toUpperCase() === String(session.user.id).trim().toUpperCase()) || (session.pin && String(p.pin || '').trim() === String(session.pin).trim())
     );
 
     if (!participant) {
